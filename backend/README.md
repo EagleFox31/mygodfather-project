@@ -58,6 +58,32 @@ Voir [SERVICE_INTERACTIONS.md](docs/SERVICE_INTERACTIONS.md) pour plus de détai
 
 ## 🛣 Routes API
 
+### Statistics Services
+- **GET** `/api/statistics/dashboard`: Retrieves statistics for the dashboard.
+- **POST** `/api/statistics/reports`: Generates a statistical report based on specified parameters.
+- **GET** `/api/statistics/alerts`: Retrieves statistical alerts.
+- **GET** `/api/statistics/matching-distribution`: Retrieves the distribution of matching scores.
+- **POST** `/api/statistics/export`: Exports statistical data in a specified format.
+
+
+### Authentication
+- **POST** `/api/auth/login`: Authenticates a user and returns a JWT token.
+- **POST** `/api/auth/register`: Registers a new user.
+- **POST** `/api/auth/refresh`: Refreshes the access token.
+- **POST** `/api/auth/reset-password`: Initiates a password reset process.
+- **GET** `/api/auth/status`: Checks if the user is authenticated.
+
+### User Management
+- **GET** `/api/users`: Retrieves a list of users with optional filtering and pagination.
+- **POST** `/api/users`: Creates a new user.
+- **GET** `/api/users/profile`: Retrieves the authenticated user's profile.
+- **PUT** `/api/users/profile`: Updates the authenticated user's profile.
+- **GET** `/api/users/{id}`: Retrieves a user by their ID.
+- **PUT** `/api/users/notifications/preferences`: Updates the user's notification preferences.
+- **PUT** `/api/users/disponibilite`: Updates the availability status for mentors.
+- **PATCH** `/api/users/complete-onboarding`: Marks the onboarding process as complete for the user.
+
+
 L'API expose les endpoints suivants :
 
 - `/api/auth/*` - Authentification
@@ -70,6 +96,12 @@ L'API expose les endpoints suivants :
 Voir [API_ROUTES.md](docs/API_ROUTES.md) pour la documentation complète.
 
 ## 📊 Modèles de Données
+
+## 🌐 Frontend Features
+1. **Dashboard Mentor**: Displays statistics, upcoming sessions, and a list of mentees.
+2. **Home Authenticated**: Shows user-specific statistics, recent notifications, and quick action buttons based on user roles.
+3. **Home Page**: Manages routing, theme, and language preferences, and displays features of the application.
+
 
 Les principales entités sont :
 
