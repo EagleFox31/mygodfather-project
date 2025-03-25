@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="75" failures="4" errors="0" time="3.253">
+  <testsuite name="Configuration" errors="0" failures="0" skipped="0" timestamp="2025-03-05T14:36:19" time="1.607" tests="17">
+    <testcase classname="Configuration › Validation de la configuration complète" name="devrait valider une configuration correcte" time="0.019">
+    </testcase>
+    <testcase classname="Configuration › Validation de la configuration complète" name="devrait détecter les champs manquants" time="0.028">
+    </testcase>
+    <testcase classname="Configuration › Validation de la base de données" name="devrait valider une URL MongoDB valide" time="0.001">
+    </testcase>
+    <testcase classname="Configuration › Validation de la base de données" name="devrait rejeter une URL invalide" time="0.001">
+    </testcase>
+    <testcase classname="Configuration › Validation JWT" name="devrait valider une configuration JWT correcte" time="0.001">
+    </testcase>
+    <testcase classname="Configuration › Validation JWT" name="devrait rejeter un secret trop court" time="0.001">
+    </testcase>
+    <testcase classname="Configuration › Validation JWT" name="devrait valider différents formats d&apos;expiration" time="0.003">
+    </testcase>
+    <testcase classname="Configuration › Validation de la sécurité" name="devrait valider une configuration de sécurité correcte" time="0.001">
+    </testcase>
+    <testcase classname="Configuration › Validation de la sécurité" name="devrait rejeter un nombre de rounds bcrypt invalide" time="0.001">
+    </testcase>
+    <testcase classname="Configuration › Validation du matching" name="devrait valider une configuration de matching correcte" time="0.001">
+    </testcase>
+    <testcase classname="Configuration › Validation du matching" name="devrait rejeter un seuil de matching invalide" time="0.001">
+    </testcase>
+    <testcase classname="Configuration › Validation des sessions" name="devrait valider une configuration de session correcte" time="0.002">
+    </testcase>
+    <testcase classname="Configuration › Validation des sessions" name="devrait rejeter une durée minimale invalide" time="0.001">
+    </testcase>
+    <testcase classname="Configuration › Validation des uploads" name="devrait valider une configuration d&apos;upload correcte" time="0.002">
+    </testcase>
+    <testcase classname="Configuration › Validation des uploads" name="devrait rejeter une taille de fichier négative" time="0.002">
+    </testcase>
+    <testcase classname="Configuration › Validation des notifications" name="devrait valider une configuration de notification correcte" time="0.001">
+    </testcase>
+    <testcase classname="Configuration › Validation des notifications" name="devrait rejeter une rétention négative" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="AuthService" errors="0" failures="4" skipped="0" timestamp="2025-03-05T14:36:19" time="2.47" tests="36">
+    <testcase classname="AuthService › login" name="should login successfully with correct credentials" time="0.015">
+    </testcase>
+    <testcase classname="AuthService › login" name="should throw error with incorrect password" time="0.026">
+    </testcase>
+    <testcase classname="AuthService › login" name="should throw error if user not found" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › getUserStatus" name="should return user status for valid user" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › getUserStatus" name="should throw error if user not found" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › changePassword" name="should change password successfully" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › changePassword" name="should throw error if current password is incorrect" time="0.002">
+    </testcase>
+    <testcase classname="AuthService › refreshToken" name="should refresh token successfully" time="0.002">
+    </testcase>
+    <testcase classname="AuthService › refreshToken" name="should throw error if refresh token is invalid" time="0.004">
+    </testcase>
+    <testcase classname="AuthService › refreshToken" name="should throw error if user from refresh token does not exist" time="0.002">
+    </testcase>
+    <testcase classname="AuthService › refreshToken" name="should throw error if refresh token is expired" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › refreshToken" name="should throw error if refresh token has invalid signature" time="0.002">
+    </testcase>
+    <testcase classname="AuthService › refreshToken" name="should throw error if refresh token is malformed" time="0.002">
+    </testcase>
+    <testcase classname="AuthService › refreshToken" name="should throw error if user update fails" time="0.002">
+    </testcase>
+    <testcase classname="AuthService › revokeRefreshToken" name="should successfully revoke a refresh token" time="0.003">
+    </testcase>
+    <testcase classname="AuthService › revokeRefreshToken" name="should handle case when token is not found" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › revokeRefreshToken" name="should handle database errors during token revocation" time="0.002">
+    </testcase>
+    <testcase classname="AuthService › revokeAllUserTokens" name="should successfully revoke all user tokens" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › revokeAllUserTokens" name="should handle case when user is not found" time="0.002">
+    </testcase>
+    <testcase classname="AuthService › revokeAllUserTokens" name="should handle database errors during token revocation" time="0.002">
+    </testcase>
+    <testcase classname="AuthService › register" name="should register a new user successfully" time="0.001">
+      <failure>Error: Property `prototype` does not exist in the provided object
+    at ModuleMocker._spyOnProperty (C:\wamp64\www\godfather\backend\node_modules\jest-mock\build\index.js:807:13)
+    at ModuleMocker.spyOn (C:\wamp64\www\godfather\backend\node_modules\jest-mock\build\index.js:727:19)
+    at Object.spyOn (C:\wamp64\www\godfather\backend\tests\services\authService.test.js:314:18)
+    at Promise.then.completed (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\wamp64\www\godfather\backend\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\wamp64\www\godfather\backend\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\wamp64\www\godfather\backend\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="AuthService › register" name="should throw error if email already exists" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › register" name="should handle database errors during registration" time="0.002">
+    </testcase>
+    <testcase classname="AuthService › generateTokens" name="should generate tokens with device info" time="0.001">
+      <failure>Error: Database error
+    at Object.&lt;anonymous&gt; (C:\wamp64\www\godfather\backend\tests\services\authService.test.js:248:46)
+    at Promise.then.completed (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\wamp64\www\godfather\backend\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\wamp64\www\godfather\backend\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\wamp64\www\godfather\backend\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="AuthService › generateTokens" name="should handle token generation errors" time="0.022">
+      <failure>Error: expect(received).rejects.toThrow(expected)
+
+Expected substring: &quot;Token generation failed&quot;
+Received message:   &quot;Database error&quot;
+
+      246 |         it(&apos;should handle database errors during token revocation&apos;, async () =&gt; {
+      247 |             const token = &apos;token.to.revoke&apos;;
+    &gt; 248 |             User.updateOne.mockRejectedValue(new Error(&apos;Database error&apos;));
+          |                                              ^
+      249 |
+      250 |             await expect(authService.revokeRefreshToken(token))
+      251 |                 .rejects.toThrow(&apos;Database error&apos;);
+
+      at Object.&lt;anonymous&gt; (tests/services/authService.test.js:248:46)
+    at Object.toThrow (C:\wamp64\www\godfather\backend\node_modules\expect\build\index.js:218:22)
+    at Object.toThrow (C:\wamp64\www\godfather\backend\tests\services\authService.test.js:365:26)
+    at Promise.then.completed (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\wamp64\www\godfather\backend\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\wamp64\www\godfather\backend\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\wamp64\www\godfather\backend\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="AuthService › generateTokens" name="should handle database errors during token storage" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › generateTokens" name="should handle expired token cleanup errors" time="0">
+    </testcase>
+    <testcase classname="AuthService › initiatePasswordReset" name="should initiate password reset for existing user" time="0">
+    </testcase>
+    <testcase classname="AuthService › initiatePasswordReset" name="should return generic message for non-existent user" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › initiatePasswordReset" name="should handle database errors" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › resetPassword" name="should reset password successfully" time="0">
+      <failure>Error: Database error
+    at Object.&lt;anonymous&gt; (C:\wamp64\www\godfather\backend\tests\services\authService.test.js:214:45)
+    at Promise.then.completed (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\wamp64\www\godfather\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\wamp64\www\godfather\backend\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\wamp64\www\godfather\backend\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\wamp64\www\godfather\backend\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="AuthService › resetPassword" name="should throw error for invalid reset token" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › resetPassword" name="should throw error if user not found" time="0">
+    </testcase>
+    <testcase classname="AuthService › resetPassword" name="should handle password hashing errors" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › cleanupExpiredTokens" name="should remove expired tokens successfully" time="0.001">
+    </testcase>
+    <testcase classname="AuthService › cleanupExpiredTokens" name="should handle database errors during cleanup" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="AuthController" errors="0" failures="0" skipped="0" timestamp="2025-03-05T14:36:19" time="2.728" tests="11">
+    <testcase classname="AuthController › login" name="should login successfully with valid credentials" time="0.064">
+    </testcase>
+    <testcase classname="AuthController › login" name="should handle validation errors" time="0.002">
+    </testcase>
+    <testcase classname="AuthController › login" name="should handle login service errors" time="0.001">
+    </testcase>
+    <testcase classname="AuthController › checkAuthStatus" name="should return user status when authenticated" time="0.001">
+    </testcase>
+    <testcase classname="AuthController › checkAuthStatus" name="should return an error when no user is authenticated" time="0.001">
+    </testcase>
+    <testcase classname="AuthController › checkAuthStatus" name="should handle getUserStatus service errors" time="0.001">
+    </testcase>
+    <testcase classname="AuthController › logout" name="should logout successfully" time="0">
+    </testcase>
+    <testcase classname="AuthController › logout" name="should handle logout without refresh token" time="0.001">
+    </testcase>
+    <testcase classname="AuthController › refreshToken" name="should refresh token successfully" time="0.001">
+    </testcase>
+    <testcase classname="AuthController › refreshToken" name="should handle missing refresh token" time="0">
+    </testcase>
+    <testcase classname="AuthController › refreshToken" name="should handle refresh token service errors" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="AuthController" errors="0" failures="0" skipped="0" timestamp="2025-03-05T14:36:19" time="2.728" tests="11">
+    <testcase classname="AuthController › login" name="should login successfully with valid credentials" time="0.069">
+    </testcase>
+    <testcase classname="AuthController › login" name="should handle validation errors" time="0.001">
+    </testcase>
+    <testcase classname="AuthController › login" name="should handle login service errors" time="0.001">
+    </testcase>
+    <testcase classname="AuthController › checkAuthStatus" name="should return user status when authenticated" time="0.001">
+    </testcase>
+    <testcase classname="AuthController › checkAuthStatus" name="should return an error when no user is authenticated" time="0">
+    </testcase>
+    <testcase classname="AuthController › checkAuthStatus" name="should handle getUserStatus service errors" time="0.001">
+    </testcase>
+    <testcase classname="AuthController › logout" name="should logout successfully" time="0">
+    </testcase>
+    <testcase classname="AuthController › logout" name="should handle logout without refresh token" time="0.001">
+    </testcase>
+    <testcase classname="AuthController › refreshToken" name="should refresh token successfully" time="0.001">
+    </testcase>
+    <testcase classname="AuthController › refreshToken" name="should handle missing refresh token" time="0">
+    </testcase>
+    <testcase classname="AuthController › refreshToken" name="should handle refresh token service errors" time="0">
+    </testcase>
+  </testsuite>
+</testsuites>

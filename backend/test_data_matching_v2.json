@@ -1,0 +1,38 @@
+{
+    "mentors": [
+        {
+            "Nom": "ABADA EKOUNDA",
+            "Prénom": "SYLVAIN",
+            "Age du salarié en décembre 2024": 45,
+            "Fonction": "PEINTRE TUTEUR SENIOR",
+            "Service": "ATELIER VL",
+            "Ancienneté entreprise": 14
+        },
+        {
+            "Nom": "MARTIN",
+            "Prénom": "JEAN",
+            "Age du salarié en décembre 2024": 50,
+            "Fonction": "CHEF D'ÉQUIPE",
+            "Service": "ATELIER VL",
+            "Ancienneté entreprise": 10
+        }
+    ],
+    "mentees": [
+        {
+            "Nom": "ABADA AMAH",
+            "Prénom": "ROLAND GILDAS",
+            "Age du salarié en décembre 2024": 35,
+            "Fonction": "MECANICIEN VÉHICULES LERGERS",
+            "Service": "ATELIER VL",
+            "Ancienneté entreprise": 2
+        },
+        {
+            "Nom": "DUBOIS",
+            "Prénom": "PIERRE",
+            "Age du salarié en décembre 2024": 32,
+            "Fonction": "MECANICIEN JUNIOR",
+            "Service": "ATELIER VL",
+            "Ancienneté entreprise": 1
+        }
+    ]
+}
