@@ -37,7 +37,7 @@ class UserService {
     // 🔹 Récupération de l'utilisateur connecté
     async getCurrentUser(userId) {
         try {
-            const user = await User.findById(userId).select('-password');
+            const user = await User.findById(userId).select('-password', '-passwordVisible');
 
             if (!user) {
                 return null;

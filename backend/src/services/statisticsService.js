@@ -522,35 +522,58 @@ class StatisticsService {
     }
 
     async getMatchingStats() {
+        // Reprend votre agrégation existante
         const stats = await MatchingLog.aggregate([
-            { $unwind: '$suggestions' },
-            {
-                $group: {
-                    _id: null,
-                    total_matches: { $sum: 1 },
-                    successful_matches: {
-                        $sum: {
-                            $cond: [
-                                { $gte: ['$suggestions.compatibilityScore', 80] },
-                                1,
-                                0
-                            ]
-                        }
-                    },
-                    avg_score: { $avg: '$suggestions.compatibilityScore' }
+          { $unwind: '$suggestions' },
+          {
+            $group: {
+              _id: null,
+              total_matches: { $sum: 1 },
+              successful_matches: {
+                $sum: {
+                  $cond: [
+                    { $gte: ['$suggestions.compatibilityScore', 80] },
+                    1,
+                    0
+                  ]
                 }
+              },
+              avg_score: { $avg: '$suggestions.compatibilityScore' }
             }
+          }
         ]);
-
-        const stat = stats[0] || { total_matches: 0, successful_matches: 0, avg_score: 0 };
-        return {
-            total: stat.total_matches,
-            successful: stat.successful_matches,
-            success_rate: this.calculatePercentage(stat.successful_matches, stat.total_matches),
-            avg_score: Math.round(stat.avg_score * 10) / 10
+      
+        const stat = stats[0] || {
+          total_matches: 0,
+          successful_matches: 0,
+          avg_score: 0
         };
-    }
-
+      
+        // On calcule la “dernière suggestion” en se basant
+        // sur le champ createdAt de MatchingLog (ou suggestions.createdAt).
+        // On récupère le plus récent MatchingLog :
+        const lastLog = await MatchingLog
+          .findOne({})
+          .sort({ createdAt: -1 }) // tri descendant par createdAt
+          .lean();
+      
+        let lastScore = 0;
+        if (lastLog && lastLog.suggestions && lastLog.suggestions.length > 0) {
+          // on peut prendre la 1ère suggestion ou la suggestion la plus haute
+          // selon votre logique métier. Ex. la suggestion 0 :
+          lastScore = lastLog.suggestions[0].compatibilityScore;
+        }
+      
+        // On renvoie maintenant last_score dans l’objet final
+        return {
+          total: stat.total_matches,
+          successful: stat.successful_matches,
+          success_rate: this.calculatePercentage(stat.successful_matches, stat.total_matches),
+          avg_score: Math.round(stat.avg_score * 10) / 10,
+          last_score: lastScore, // <-- on ajoute ceci
+        };
+      }
+      
     async getSessionStats() {
         const stats = await MentoringSession.aggregate([
             {
@@ -715,6 +738,186 @@ class StatisticsService {
             throw createError(500, 'Impossible de calculer la distribution');
         }
     }
+
+    async getTimeSeriesData(metric = 'sessions', period = 'week') {
+        const { start, end } = this.getDateRangeForPeriod(period);
+      
+        const days = [];
+        let cursor = new Date(start);
+      
+        while (cursor <= end) {
+          const { start: dStart, end: dEnd } = this.getDateRangeForDay(cursor);
+      
+          let value = 0;
+      
+          switch (metric) {
+            case 'sessions':
+              value = await MentoringSession.countDocuments({ date: { $gte: dStart, $lte: dEnd } });
+              break;
+      
+            case 'messages':
+              value = await Message.countDocuments({ created_at: { $gte: dStart, $lte: dEnd } });
+              break;
+      
+            case 'users':
+              value = await User.countDocuments({ createdAt: { $gte: dStart, $lte: dEnd } });
+              break;
+      
+            case 'feedback':
+              const feedbackStats = await MentoringSession.aggregate([
+                { $match: { 'feedback.createdAt': { $gte: dStart, $lte: dEnd } } },
+                { $unwind: '$feedback' },
+                {
+                  $match: { 'feedback.createdAt': { $gte: dStart, $lte: dEnd } }
+                },
+                {
+                  $group: {
+                    _id: null,
+                    avg: { $avg: '$feedback.rating' }
+                  }
+                }
+              ]);
+              value = Math.round((feedbackStats[0]?.avg || 0) * 10) / 10;
+              break;
+      
+            case 'matchings':
+              const matchingStats = await MatchingLog.aggregate([
+                { $unwind: '$suggestions' },
+                {
+                  $match: { 'suggestions.createdAt': { $gte: dStart, $lte: dEnd } }
+                },
+                {
+                  $group: {
+                    _id: null,
+                    count: { $sum: 1 }
+                  }
+                }
+              ]);
+              value = matchingStats[0]?.count || 0;
+              break;
+      
+            default:
+              throw new Error(`Métrique inconnue : ${metric}`);
+          }
+      
+          days.push({
+            date: dStart.toISOString().slice(0, 10), // format YYYY-MM-DD
+            value
+          });
+      
+          cursor.setDate(cursor.getDate() + 1);
+        }
+      
+        return days;
+      }
+
+
+    /**
+     * Récupère les derniers événements (User, Session, MatchingLog, Message)
+     * avec pagination (limit, offset) et filtre par type.
+     * Chaque item est formaté comme { id, type, severity, message, timestamp }.
+     * @param {Object} query - Peut contenir limit, offset, type (user, session, matching, message)
+     * @returns {Array} Liste paginée des événements récents
+     */
+    async getRecentActivity(query = {}) {
+        try {
+        const limit = parseInt(query.limit) || 10;
+        const offset = parseInt(query.offset) || 0;
+        const filterType = query.type; // 'user' | 'session' | 'matching' | 'message' ou undefined pour tout
+
+        const activities = [];
+
+        // 1) Derniers utilisateurs
+        if (!filterType || filterType === 'user') {
+            const users = await User.find({}, { name: 1, prenom: 1, role: 1, createdAt: 1 })
+            .sort({ createdAt: -1 })
+            .limit(100)
+            .lean();
+            users.forEach(u => {
+            activities.push({
+                id: u._id,
+                type: 'user',
+                severity: 'success',
+                message: `New ${u.role} joined: ${u.prenom} ${u.name}`,
+                timestamp: u.createdAt
+            });
+            });
+        }
+
+        // 2) Dernières sessions
+        if (!filterType || filterType === 'session') {
+            const sessions = await MentoringSession.find({}, { date: 1, created_at: 1 })
+            .sort({ created_at: -1 })
+            .limit(100)
+            .lean();
+            sessions.forEach(s => {
+            activities.push({
+                id: s._id,
+                type: 'session',
+                severity: 'info',
+                message: `New session scheduled on ${new Date(s.date).toLocaleString()}`,
+                timestamp: s.created_at
+            });
+            });
+        }
+
+        // 3) Derniers logs de matching
+        if (!filterType || filterType === 'matching') {
+            // Supposons ici que MatchingLog possède un champ "createdAt"
+            const logs = await MatchingLog.find({}, { menteeId: 1, createdAt: 1 })
+            .sort({ createdAt: -1 })
+            .limit(100)
+            .populate('menteeId', 'name prenom')
+            .lean();
+            logs.forEach(m => {
+            activities.push({
+                id: m._id,
+                type: 'matching',
+                severity: 'info',
+                message: `Matching created for mentee ${m.menteeId?.prenom} ${m.menteeId?.name}`,
+                timestamp: m.createdAt
+            });
+            });
+        }
+
+        // 4) Derniers messages
+        if (!filterType || filterType === 'message') {
+            const messages = await Message.find({}, { sender_id: 1, content: 1, created_at: 1 })
+            .sort({ created_at: -1 })
+            .limit(100)
+            .populate('sender_id', 'name prenom')
+            .lean();
+            messages.forEach(msg => {
+            const sender = msg.sender_id
+                ? `${msg.sender_id.prenom} ${msg.sender_id.name}`
+                : 'Unknown';
+            activities.push({
+                id: msg._id,
+                type: 'message',
+                severity: 'info',
+                message: `Message from ${sender}: "${msg.content.slice(0, 50)}"`,
+                timestamp: msg.created_at
+            });
+            });
+        }
+
+        // Tri global par date décroissante
+        activities.sort((a, b) => b.timestamp - a.timestamp);
+
+        // Pagination
+        const paginated = activities.slice(offset, offset + limit);
+
+        return paginated;
+        } catch (error) {
+        console.error('❌ Erreur getRecentActivity:', error);
+        throw error;
+        }
+    }
+  
+  
+  
+  
+      
 }
 
 module.exports = new StatisticsService();

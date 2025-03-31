@@ -270,6 +270,7 @@ router.get(
     statisticsController.getMatchingDistribution
 );
 
+
 /**
  * @swagger
  * /api/statistics/export:
@@ -346,6 +347,81 @@ router.post('/export', [
         .default(true), // 🚀 Ajout d'une option pour inclure les headers dans l'export CSV
 ], validateRequest, statisticsController.exportData);
 
+/**
+ * @swagger
+ * /api/statistics/recent-activity:
+ *   get:
+ *     summary: "🕑 Obtenir les activités récentes (filtrables et paginées)"
+ *     tags: [Statistics]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: "Nombre maximum d'activités à retourner"
+ *       - in: query
+ *         name: offset
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         description: "Décalage pour la pagination (ex : 10 pour passer à la 2ᵉ page)"
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *           enum: [user, session, matching, message]
+ *         description: "Filtrer les activités par type"
+ *     responses:
+ *       200:
+ *         description: "✅ Activités récupérées avec succès"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       type:
+ *                         type: string
+ *                       severity:
+ *                         type: string
+ *                       message:
+ *                         type: string
+ *                       timestamp:
+ *                         type: string
+ *                         format: date-time
+ *                 meta:
+ *                   type: object
+ *                   properties:
+ *                     count:
+ *                       type: integer
+ *                     limit:
+ *                       type: integer
+ *                     offset:
+ *                       type: integer
+ *                     type:
+ *                       type: string
+ *       401:
+ *         description: "❌ Non autorisé"
+ *       403:
+ *         description: "🚫 Accès refusé - Réservé aux admin et RH"
+ */
+router.get('/recent-activity', [
+    query('limit').optional().isInt({ min: 1 }).withMessage('Limit invalide'),
+    query('offset').optional().isInt({ min: 0 }).withMessage('Offset invalide'),
+    query('type').optional().isIn(['user', 'session', 'matching', 'message']).withMessage('Type invalide')
+  ], validateRequest, statisticsController.getRecentActivity);
 
 
 

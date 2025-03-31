@@ -112,7 +112,29 @@ const statisticsService = {
             console.error('Erreur getMatchingDistribution:', error);
             throw error;
         }
+    },
+
+    /**
+   * Récupérer les activités récentes avec filtrage et pagination
+   * @param {Object} params - ex: { limit: 10, offset: 0, type: 'session' }
+   */
+  getRecentActivity: async (params = {}) => {
+    try {
+      const query = new URLSearchParams();
+      if (params.limit) query.append('limit', params.limit);
+      if (params.offset) query.append('offset', params.offset);
+      if (params.type) query.append('type', params.type);
+
+      const response = await apiAxios.get(`/statistics/recent-activity?${query.toString()}`);
+      if (!response.data.success) {
+        throw new Error('Impossible de récupérer les activités récentes.');
+      }
+      return response.data;
+    } catch (error) {
+      console.error('Erreur getRecentActivity:', error);
+      throw error;
     }
+  }
 
 };
 

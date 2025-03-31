@@ -143,6 +143,38 @@ class StatisticsController {
             next(error);
         }
     }
+
+    /**
+   * @desc    🕑 Obtenir les activités récentes (filtrables et paginées)
+   * @route   GET /api/statistics/recent-activity?limit=10&offset=0&type=session
+   * @access  Private (Admin, RH)
+   */
+  async getRecentActivity(req, res, next) {
+    try {
+      // Validation éventuelle
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(createError(400, 'Données invalides', { errors: errors.array() }));
+      }
+
+      const { limit, offset, type } = req.query;
+      const activities = await statisticsService.getRecentActivity({ limit, offset, type });
+      res.json({
+        success: true,
+        data: activities,
+        meta: {
+          count: activities.length,
+          limit: parseInt(limit) || 10,
+          offset: parseInt(offset) || 0,
+          type: type || 'all'
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  
+  
 }
 
 module.exports = new StatisticsController();

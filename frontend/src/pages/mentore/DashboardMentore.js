@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaChartLine, FaStar, FaCheckCircle } from "react-icons/fa";
-import Button from "../components/UI/Button";
-import Spinner from "../components/UI/Spinner";
+import Button from "../../components/UI/Button";
+import Spinner from "../../components/UI/Spinner";
 
 // Components
 const ProgressBar = ({ percentage, color }) => (

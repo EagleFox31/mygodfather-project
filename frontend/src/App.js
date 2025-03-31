@@ -16,8 +16,9 @@ function App() {
   return (
     <div
       className={`min-h-screen ${theme === 'dark'
-          ? 'bg-gradient-to-br from-gray-900 via-slate-800 to-slate-900'
-          : 'bg-gradient-to-br from-indigo-50 via-white to-purple-50'
+        ? 'bg-gradient-conic-tr from-primary-900/20 via-swirl-secondary-900/20 to-slate-900 backdrop-blur-2xl text-white'
+        : 'bg-gradient-conic-tr from-primary-900/20 via-swirl-secondary-900/20 to-slate-900 backdrop-blur-2xl text-slate-800'
+      
         }`}
     >
       {/* Conteneur des notifications */}
